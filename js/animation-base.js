@@ -1,4 +1,4 @@
-gsap.registerPlugin(SplitText, ScrollTrigger);
+gsap.registerPlugin(SplitText, ScrollTrigger, ScrollToPlugin);
 
 function splitAndAnimate(selector, staggerDelay, splitType) {
   const split = new SplitText(selector, { type: splitType });
@@ -14,6 +14,31 @@ function splitAndAnimate(selector, staggerDelay, splitType) {
     ease: "power2.out"
   });
 }
+
+//アンカーリンクのスムーススクロール
+document.querySelectorAll(".header .container nav ul li a").forEach((btn) => {
+  btn.addEventListener("click", (e) => {
+    e.preventDefault();
+    const targetId = btn.getAttribute("href");
+    gsap.to(window, {
+      duration: 1,
+      scrollTo: targetId,
+      ease: "power1.out"
+    });
+  });
+});
+
+let lastY = 0;
+const nav = document.querySelector(".header .container nav");
+window.addEventListener("scroll", e => {
+  const currentY = window.pageYOffset;
+  if (currentY > lastY) {
+    console.log("down");
+  } else if(currentY < lastY) {
+    console.log("up")
+  }
+  lastY = currentY <= 0 ? 0 : currentY;
+})
 
 // header-aniamtion
 // const headerH2 = new SplitText(".header .first-view .text h2 .catch", { type: "chars, words, lines" });
@@ -317,7 +342,7 @@ const footerAnimation = gsap.timeline({
       "linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 100%)",
     duration: 1.25
   })
-  .to(footerLogoPlane, { atoAlpha: 0 }, "<")
+  .to(footerLogoPlane, { autoAlpha: 0 }, "<")
   .to(footerLogoWhite, { autoAlpha: 1 }, "<")
   .to(footerLinks, { color: "#fff", stagger: 0.15 }, "<=0.5");
 

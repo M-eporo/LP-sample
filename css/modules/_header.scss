@@ -15,6 +15,10 @@
         max-width: 1920px;
         margin: 0 auto 0;
         nav {
+          // position: fixed;
+          // top: 0;
+          // z-index: 999999;
+          // width: 100vw;
             display: flex;
             align-items: center;
             justify-content: space-between;
